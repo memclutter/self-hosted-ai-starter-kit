@@ -2,6 +2,7 @@ volumes:
   n8n_storage:
   postgres_storage:
   db_data:
+  redis_data:
   nc_data:
   ollama_storage:
   qdrant_storage:
@@ -95,6 +96,17 @@ services:
     networks: ['nocodb', 'demo']
     volumes: 
       - "nc_data:/usr/app/data"
+  redis:
+    image: redis:6-alpine # A lightweight Redis image
+    restart: unless-stopped
+    volumes:
+      - redis_data:/data
+    networks: [demo]
+    healthcheck: # Optional: healthcheck for robust deployments
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
   n8n-import:
     <<: *service-n8n
