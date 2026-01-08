@@ -12,7 +12,7 @@ networks:
   nocodb:
 
 x-n8n: &service-n8n
-  image: n8nio/n8n:latest
+  image: n8nio/n8n:2.3.1
   networks: ['demo']
   environment:
     - DB_TYPE=postgresdb
@@ -23,6 +23,7 @@ x-n8n: &service-n8n
     - N8N_PERSONALIZATION_ENABLED=false
     - N8N_ENCRYPTION_KEY
     - N8N_USER_MANAGEMENT_JWT_SECRET
+    - N8N_LOG_LEVEL=debug
     - OLLAMA_HOST=${OLLAMA_HOST:-ollama:11434}
   env_file:
     - path: .env
